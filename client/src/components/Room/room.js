@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const bull = (
     <Box
@@ -40,7 +40,9 @@ const card = (
     </React.Fragment>
 );
 
-const Room = (props: RouteComponentProps<{ code: string }>) => {
+const Room = () => {
+    let { code } = useParams();
+    console.log(code);
     return (
         <Box sx={{ minWidth: 275 }}>
             <Card variant="outlined">{card}</Card>
