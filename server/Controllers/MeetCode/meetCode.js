@@ -1,7 +1,7 @@
 // Code generator function
 
 // Array to store all codes
-var code_arr = []
+const code_arr = []
 
 module.exports.codeGenerator = (req, res) => {
     // console.log(String.fromCharCode(Math.floor((Math.random() * 100)/4)+97))
@@ -21,3 +21,8 @@ module.exports.codeGenerator = (req, res) => {
     res.send(data);
 };
 
+module.exports.codeVerification = (req,res) => {
+    const current_code = req.body.code;
+    const exists = code_arr.indexOf(current_code);
+    res.send({"response": exists});
+}

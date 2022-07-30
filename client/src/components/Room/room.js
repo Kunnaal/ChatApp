@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router-dom';
+import DNE from "../DNE/dne";
 
 const bull = (
     <Box
@@ -41,13 +42,40 @@ const card = (
 );
 
 const Room = () => {
+
     let { code } = useParams();
     console.log(code);
-    return (
-        <Box sx={{ minWidth: 275 }}>
-            <Card variant="outlined">{card}</Card>
-        </Box>
-    );
-}
+
+    const param = {
+        method:"POST", 
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({"code": code}),
+    }
+
+    fetch('/api/verify-code/', param)
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        console.log(data);
+        console.log(typeof(data.response));
+        if(data.response !== (-1)) {
+            // console.log("TWINKLE N00B");
+        }
+        if(data.response === (-1)) {
+            console.log("TWINKLE N00B");
+            return(
+                //page does not exists
+                < DNE />
+            );
+        } else {
+            return (
+                <Box sx={{ minWidth: 275 }}>
+                    <Card variant="outlined">{card}</Card>
+                </Box>
+            );
+        };    
+    });
+};
 
 export default Room;
