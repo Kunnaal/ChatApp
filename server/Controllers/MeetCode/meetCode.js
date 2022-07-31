@@ -17,12 +17,13 @@ module.exports.codeGenerator = (req, res) => {
         "code": code_str
     };
     code_arr.push(data.code);
-    console.log(code_arr);
+    // console.log(code_arr);
     res.send(data);
 };
 
 module.exports.codeVerification = (req,res) => {
     const current_code = req.body.code;
+    // console.log(current_code);
     const exists = code_arr.indexOf(current_code);
     res.send({"response": exists});
 }

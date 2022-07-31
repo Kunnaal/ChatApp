@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router-dom';
 import DNE from "../DNE/dne";
 
+var code_response = null;
+
 const bull = (
     <Box
         component="span"
@@ -43,39 +45,30 @@ const card = (
 
 const Room = () => {
 
+    // Capture the meet code from params
     let { code } = useParams();
-    console.log(code);
 
-    const param = {
-        method:"POST", 
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({"code": code}),
+    // Create an XML HTTP Request
+    const xhr = new XMLHttpRequest();
+    // open the request with the verb and the url
+    xhr.open('POST', '/api/verify-code/', false);
+    // set the Http request header
+    xhr.setRequestHeader("Content-Type","application/json");
+    // send the request
+    xhr.send(JSON.stringify({"code": code}));
+
+    if(JSON.parse(xhr.response).response === -1) {
+        return(
+            //page does not exist
+            < DNE />
+        );
+    } else {
+        return (
+            <Box sx={{ minWidth: 275 }}>
+                <Card variant="outlined">{card}</Card>
+            </Box>
+        );
     }
-
-    fetch('/api/verify-code/', param)
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        console.log(data);
-        console.log(typeof(data.response));
-        if(data.response !== (-1)) {
-            // console.log("TWINKLE N00B");
-        }
-        if(data.response === (-1)) {
-            console.log("TWINKLE N00B");
-            return(
-                //page does not exists
-                < DNE />
-            );
-        } else {
-            return (
-                <Box sx={{ minWidth: 275 }}>
-                    <Card variant="outlined">{card}</Card>
-                </Box>
-            );
-        };    
-    });
 };
 
 export default Room;

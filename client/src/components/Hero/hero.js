@@ -1,4 +1,4 @@
-import '../public/css/hero.css'
+import '../Public/css/hero.css'
 import * as React from 'react';
 // import {useState} from 'react';
 import { Button, Container } from "@mui/material";
