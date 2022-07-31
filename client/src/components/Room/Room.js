@@ -6,9 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router-dom';
-import DNE from "../DNE/dne";
-
-var code_response = null;
+import DNE from "../DNE/DNE";
 
 const bull = (
     <Box

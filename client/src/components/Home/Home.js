@@ -1,5 +1,5 @@
-import ResponsiveAppBar from '../AppBar/appBar'
-import Hero from '../Hero/hero'
+import ResponsiveAppBar from '../AppBar/AppBar'
+import Hero from '../Hero/Hero'
 
 const Home = () => {
     return(<>
