@@ -2,7 +2,7 @@ import React from "react";
 
 const DNE = () => {
     return(
-        <h1>Does not exists</h1>
+        <h1>Page Not Found</h1>
     );
 };
 
