@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs")
 const { User } = require("../Models/user.model");
 
 module.exports.registerUser = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     try {
         const user_password = await bcrypt.hash(req.body.password, 10);
         await User.create({
@@ -19,8 +19,7 @@ module.exports.registerUser = async (req, res) => {
 
 module.exports.loginUser = async (req, res) => {
 
-    console.log(req.body);
-
+    // console.log(req.body);
     const db_user = await User.findOne({
         username: req.body.username,
     });

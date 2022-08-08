@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { NO_IMAGES } from "../../index";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Button, Card, CardActions, CardContent, CardMedia, TextField } from '@mui/material';
 
 const Register = () => {
@@ -11,6 +12,7 @@ const Register = () => {
     const rand_img_id = Math.floor(Math.random()*NO_IMAGES);
 
     const [imageId, setImageId] = useState(rand_img_id);
+    const [passwordState, setPasswordState] = useState("password");
 
     const handleLeft = () => {
         if (imageId > 0) {
@@ -25,6 +27,14 @@ const Register = () => {
             setImageId(imageId+1);
         } else {
             setImageId(0);
+        }
+    }
+
+    const showPassword = () => {
+        if (passwordState === "password") {
+            setPasswordState("text");
+        } else {
+            setPasswordState("password");
         }
     }
 
@@ -88,6 +98,12 @@ const Register = () => {
                 <Box component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' },}} noValidate autoComplete="off" >
                     <TextField id="outlined-basic" label="Username" variant="outlined" name="username" onChange={handleChange} />
                     <TextField id="outlined-password-input" label="Password" type="password" name="password" onChange={handleChange} />
+                    <VisibilityIcon onClick={showPassword} style={{
+                        position: "relative",
+                        transform: "translate(-44px, 24px)",
+                        margin: "0",
+                        width: "30",
+                    }}/>
                 </Box>
             </CardContent>
             <CardActions>
