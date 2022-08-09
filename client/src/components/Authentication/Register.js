@@ -97,7 +97,7 @@ const Register = () => {
             <CardContent>
                 <Box component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' },}} noValidate autoComplete="off" >
                     <TextField id="outlined-basic" label="Username" variant="outlined" name="username" onChange={handleChange} />
-                    <TextField id="outlined-password-input" label="Password" type="password" name="password" onChange={handleChange} />
+                    <TextField id="outlined-password-input" label="Password" type={passwordState} name="password" onChange={handleChange} />
                     <VisibilityIcon onClick={showPassword} style={{
                         position: "relative",
                         transform: "translate(-44px, 24px)",

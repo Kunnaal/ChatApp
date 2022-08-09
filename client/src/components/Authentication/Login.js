@@ -34,9 +34,14 @@ const Login = () => {
         });
 
         const data = await response.json();
+        const token = data.token;
 
-        if (data.status === 'ok') {
+        if (token) {
+            localStorage.setItem('token', token);
             navigate('/');
+        } else {
+            alert('Please retry login!');
+            navigate('/login');
         }
     }
 
