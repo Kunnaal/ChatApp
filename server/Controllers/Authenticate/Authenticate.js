@@ -49,3 +49,12 @@ module.exports.loginUser = async (req, res) => {
 
     return res.json({ status: "ok", token: token });
 }
+
+
+module.exports.verifyUser = (req, res) => {
+    const token = req.body.token;
+    console.log(token);
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(payload);
+    return res.json({"payload": payload});
+}
