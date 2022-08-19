@@ -1,7 +1,11 @@
-import * as React from 'react';
-import { useParams } from 'react-router-dom';
-import MeetCard from './Card/Card';
 import DNE from "../DNE/DNE";
+import * as React from 'react';
+import MeetCard from './Card/Card';
+import { useParams } from 'react-router-dom';
+import io from 'socket.io-client';
+import { BACKEND_DOMAIN } from "../../index";
+
+const socket = io.connect(BACKEND_DOMAIN);
 
 const Room = () => {
 
