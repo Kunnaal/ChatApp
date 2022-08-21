@@ -1,11 +1,11 @@
 import DNE from "../DNE/DNE";
 import * as React from 'react';
-import MeetCard from './Card/Card';
-import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
-import { BACKEND_DOMAIN } from "../../index";
+import MeetCard from './Card/Card';
+import {useEffect, useState} from "react";
+import { useParams } from 'react-router-dom';
 
-const socket = io.connect(BACKEND_DOMAIN);
+const socket = io('/');
 
 const Room = () => {
 
@@ -21,6 +21,17 @@ const Room = () => {
     // send the request
     xhr.send(JSON.stringify({"code": code}));
 
+    socket.emit("join_room", code);
+    socket.emit("send_message", { message: 'LALALALA', code });
+
+    const [messageReceived, setMessageReceived] = useState("");
+
+    useEffect(() => {
+        socket.on("receive_message", (data) => {
+            setMessageReceived(data.message);
+        });
+    }, [socket]);
+
     if(JSON.parse(xhr.response).response === -1) {
         return(
             //page does not exist
@@ -28,7 +39,10 @@ const Room = () => {
         );
     } else {
         return (
-            <MeetCard/>
+            <>
+                <MeetCard/>
+                {messageReceived}
+            </>
         );
     }
 };

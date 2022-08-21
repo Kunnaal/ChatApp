@@ -10,7 +10,7 @@ const http = require("http");
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
-app.use(cors());
+app.use(cors({ origin: true }));
 
 const server = http.createServer(app);
 const io = socket_io(server);
@@ -35,10 +35,22 @@ app.use('/api', router);
 io.on('connection', (socket) => {
     console.log(`${socket.id} has joined...`);
     // If user enters meet
-    io.on('<meet-code>', (messagePayload) => {
+    socket.on("join_room", (messagePayload) => {
         console.log(messagePayload);
-    })
+        socket.join(messagePayload);
+    });
+    socket.on("send_message", (data) => {
+        socket.to(data.code).emit("receive_message", data);
+    });
 })
+
+app.use(function (req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT,DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+
+    next();
+});
 
 server.listen(process.env.PORT||8000, () => {
     console.log('Server up @ '+(process.env.PORT||8000));
