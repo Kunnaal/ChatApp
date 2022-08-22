@@ -3,6 +3,7 @@ const express = require('express');
 // All the functions in different controllers
 const { codeGenerator, codeVerification } = require('../Controllers/MeetCode/meetCode');
 const { registerUser, loginUser, verifyUser } = require('../Controllers/Authenticate/Authenticate');
+const { returnUserDP } = require('../Controllers/UserManager/ReturnUserImage');
 const router = express.Router();
 
 // Creating routes for router
@@ -12,5 +13,6 @@ router.post('/verify-code', codeVerification);
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/login/verify', verifyUser);
+router.get('/getDp/:token', returnUserDP);
 
 module.exports = router;

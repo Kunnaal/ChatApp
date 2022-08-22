@@ -4,7 +4,6 @@ const { User } = require('../Models/user.model');
 require('dotenv').config({path:__dirname+'/../../../.env'});
 
 module.exports.registerUser = async (req, res) => {
-    // console.log(req.body);
     try {
         const user_password = await bcrypt.hash(req.body.password, 10);
         await User.create({
@@ -14,7 +13,6 @@ module.exports.registerUser = async (req, res) => {
         });
         res.json({status: "ok"});
     } catch (err) {
-        console.log("User auth error @ Register: "+err);
         res.json({status: 'error', error: "Duplicate Username."});
     }
 }
@@ -27,13 +25,11 @@ module.exports.loginUser = async (req, res) => {
     });
 
     if (!db_user) {
-        console.log("Inside invalid user");
         return res.json({ status: "error", error: "No such user exists!" });
     }
 
     const user_authenticated = await bcrypt.compare(req.body.password, db_user.password);
     if (!user_authenticated) {
-        console.log("Inside invalid password");
        return res.json({ status: 'error', error: 'Password incorrect!' });
     }
 
@@ -41,11 +37,10 @@ module.exports.loginUser = async (req, res) => {
 
     const payload = {
         username: db_user.username,
+        user_img_id: db_user.image_id,
         iat: Date.now(),
     }
-    // console.log(payload)
     const token = jwt.sign(payload, process.env.JWT_SECRET);
-    // console.log(token);
 
     return res.json({ status: "ok", token: token });
 }
@@ -53,8 +48,6 @@ module.exports.loginUser = async (req, res) => {
 
 module.exports.verifyUser = (req, res) => {
     const token = req.body.token;
-    console.log(token);
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(payload);
     return res.json({"payload": payload});
 }
