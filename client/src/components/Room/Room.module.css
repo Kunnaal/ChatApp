@@ -1,3 +1,55 @@
 .hidden {
     display: none !important;
 }
+
+.chatPosition {
+    position: absolute;
+    z-index: 2;
+    right: 5%;
+    bottom: 3%;
+    transform: translate(-50%, -50%);
+}
+
+.chatBox {
+    position: absolute;
+    z-index: 1;
+    width: 400px;
+    height: 85%;
+    right: 1%;
+    top: 2%;
+}
+
+.chatInput {
+    outline: none;
+    width: 85%;
+    left: 1.5%;
+    border: 0;
+    border-bottom: 2px solid gray;
+    background-color: rgba(215,215,215,0.31);
+    font-size: 115%;
+    padding: 10px;
+}
+
+.chatInput:focus {
+    border-bottom: 2px solid aqua;
+}
+
+.chatInputSendIcon {
+    position: relative;
+    right: -5px;
+    color: gray;
+    top: 13px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.inputGroup {
+    position: absolute;
+    bottom: 10px;
+    width: 95%;
+    left: 2%;
+}
+
+.colorAqua {
+    color: aqua;
+}
