@@ -20,7 +20,7 @@ const ChatBox = (props) => {
         //     setMessageReceived(data.message);
         // });
         socket.emit("send_message", { message: `Welcome to meet ${meet_code}`, meet_code });
-        console.log("temp_socket: ", socket)
+        console.log("socket: ", socket)
     }, [])
 
     // document.getElementsByName('inputMessage')
@@ -29,11 +29,8 @@ const ChatBox = (props) => {
     }
 
     useEffect(() => {
-        console.log("Receiver socket: ", socket);
-        console.log("Message before update", messageReceived);
         socket.on("receive_message", (data) => {
-            setMessageReceived(data.json().message);
-            // console.log("Message after update", messageReceived);
+            setMessageReceived(data.message);
         });
     }, [socket]);
 
