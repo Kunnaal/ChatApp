@@ -9,10 +9,19 @@ const socket = io('/');
 
 const ChatBox = (props) => {
 
-    socket.emit("join_room", meet_code);
-
     const [inputValue, setInputValue] = useState('');
-    const [messageReceived, setMessageReceived] = useState([]);
+    const [messageReceived, setMessageReceived] = useState(null);
+    // const [socket, setSocket] = useState(null);
+
+    useEffect(() => {
+        socket.emit("join_room", meet_code);
+        // socket.on("receive_message", (data) => {
+        //     console.log(data);
+        //     setMessageReceived(data.message);
+        // });
+        socket.emit("send_message", { message: `Welcome to meet ${meet_code}`, meet_code });
+        console.log("temp_socket: ", socket)
+    }, [])
 
     // document.getElementsByName('inputMessage')
     const handleInputChange = (event) => {
@@ -20,12 +29,13 @@ const ChatBox = (props) => {
     }
 
     useEffect(() => {
-        console.log(messageReceived);
+        console.log("Receiver socket: ", socket);
+        console.log("Message before update", messageReceived);
         socket.on("receive_message", (data) => {
-            setMessageReceived(prev => [...prev, data.message]);
-            console.log(messageReceived);
+            setMessageReceived(data.json().message);
+            // console.log("Message after update", messageReceived);
         });
-    }, []);
+    }, [socket]);
 
     useEffect(() => {
         if (inputValue !== '') {
@@ -43,7 +53,7 @@ const ChatBox = (props) => {
 
     return (
         <Paper
-            elevation="4"
+            elevation={4}
             className={styles.chatBox}
             name={props.name}
         >
