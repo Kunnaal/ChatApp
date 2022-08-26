@@ -10,27 +10,22 @@ const socket = io('/');
 const ChatBox = (props) => {
 
     const [inputValue, setInputValue] = useState('');
-    const [messageReceived, setMessageReceived] = useState(null);
-    // const [socket, setSocket] = useState(null);
+    const [messageReceived, setMessageReceived] = useState([]);
 
     useEffect(() => {
         socket.emit("join_room", meet_code);
-        // socket.on("receive_message", (data) => {
-        //     console.log(data);
-        //     setMessageReceived(data.message);
-        // });
         socket.emit("send_message", { message: `Welcome to meet ${meet_code}`, meet_code });
-        console.log("socket: ", socket)
     }, [])
 
-    // document.getElementsByName('inputMessage')
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     }
 
     useEffect(() => {
         socket.on("receive_message", (data) => {
-            setMessageReceived(data.message);
+            setMessageReceived((prev) => {
+                return [...prev, data.message]
+            });
         });
     }, [socket]);
 
@@ -48,6 +43,10 @@ const ChatBox = (props) => {
         }
     }
 
+    const paraItems = messageReceived.map((message) =>
+        <li>{message}</li>
+    );
+
     return (
         <Paper
             elevation={4}
@@ -55,7 +54,9 @@ const ChatBox = (props) => {
             name={props.name}
         >
             Hello World.
-            {messageReceived}
+            <p style={{maxHeight: "75%", overflow: "scroll"}}>
+                {paraItems}
+            </p>
             <div className={styles.inputGroup}>
                 <input className={styles.chatInput} name="inputMessage" value={inputValue} onChange={handleInputChange}/>
                 <SendIcon className={styles.chatInputSendIcon} name={"sendIcon"} onClick={sendMessage}/>
