@@ -14,7 +14,7 @@ const ChatBox = (props) => {
 
     useEffect(() => {
         socket.emit("join_room", meet_code);
-        socket.emit("send_message", { message: `Welcome to meet ${meet_code}`, meet_code });
+        // socket.emit("send_message", { message: `Welcome to meet ${meet_code}`, meet_code });
     }, [])
 
     const handleInputChange = (event) => {
@@ -44,7 +44,13 @@ const ChatBox = (props) => {
     }
 
     const paraItems = messageReceived.map((message) =>
-        <li>{message}</li>
+        <div className={styles.chatMessage}>
+            <div className={styles.messagePackage}>
+                <div className={styles.messageHeader}> &lt; senders name &gt; </div>
+                <div className={styles.messageTime}> &lt; message time &gt; </div>
+            </div>
+            <p>{message}</p>
+        </div>
     );
 
     return (
@@ -53,10 +59,10 @@ const ChatBox = (props) => {
             className={styles.chatBox}
             name={props.name}
         >
-            Hello World.
-            <p style={{maxHeight: "75%", overflow: "scroll"}}>
+            <div className={styles.chatHeader}>In-call messages</div>
+            <div className={styles.chatMessages}>
                 {paraItems}
-            </p>
+            </div>
             <div className={styles.inputGroup}>
                 <input className={styles.chatInput} name="inputMessage" value={inputValue} onChange={handleInputChange}/>
                 <SendIcon className={styles.chatInputSendIcon} name={"sendIcon"} onClick={sendMessage}/>

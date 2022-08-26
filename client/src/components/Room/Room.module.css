@@ -17,6 +17,7 @@
     height: 85%;
     right: 1%;
     top: 2%;
+    padding: 10px;
 }
 
 .chatInput {
@@ -48,8 +49,49 @@
     bottom: 10px;
     width: 95%;
     left: 2%;
+    height: 10% !important;
 }
 
 .colorAqua {
     color: aqua;
+}
+
+.chatHeader {
+    font-weight: bold;
+    font-size: 120%;
+    height: 5% !important;
+}
+
+.chatMessages {
+    max-height: 85% !important;
+    overflow-Y: auto;
+    max-width: 95%;
+}
+
+.chatMessage {
+    padding: 2px;
+    color: #3b3b3b;
+    margin: 10px 0;
+}
+
+.chatMessage p {
+    margin: 10px;
+}
+
+.chatMessages .messagePackage {
+    display: flex;
+}
+
+.chatMessages .messageHeader {
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+.chatMessages .messageTime {
+    color: #3b3b3b;
+    margin: 0 5px;
+}
+
+.overflowSidebar {
+    /*Add sidebar styles later*/
 }
