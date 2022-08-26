@@ -39,8 +39,7 @@ io.on('connection', (socket) => {
         socket.join(messagePayload);
     });
     socket.on("send_message", (data) => {
-        console.log(data);
-        socket.to(data.meet_code).emit("receive_message", data);
+        io.in(data.meet_code).emit("receive_message", data.message);
     });
 })
 

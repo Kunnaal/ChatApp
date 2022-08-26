@@ -1,6 +1,5 @@
 import DNE from "../DNE/DNE";
 import * as React from 'react';
-import io from 'socket.io-client';
 import MeetCard from './Card/Card';
 import {useEffect, useState} from "react";
 import { useParams } from 'react-router-dom';
@@ -10,8 +9,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import styles from './Room.module.css';
 import ChatBox from "./ChatBox/ChatBox";
 
-// const socket = io('/');
-let meet_code = ''
+let meet_code = '';
 
 const Room = () => {
 
@@ -28,21 +26,6 @@ const Room = () => {
     // send the request
     xhr.send(JSON.stringify({"code": code}));
 
-    // socket.emit("join_room", code);
-    // socket.emit("send_message", { message: 'LALALALA', code });
-    // socket.emit("send_message", { message: '2', code });
-
-    // const [messageReceived, setMessageReceived] = useState("");
-
-    // useEffect(() => {
-    //     socket.on("receive_message", (data) => {
-    //         setMessageReceived(data.message);
-    //     });
-    // }, [socket]);
-
-    // Store that state of chat
-
-    // const [new_message, set_new_message] = useState(false);
     const [chat_open, set_chat_open] = useState(false);
 
     const handleChatOpen = () => {
@@ -66,7 +49,7 @@ const Room = () => {
                 <MeetCard/>
 
                 {/*Chat box styling*/}
-                <ChatBox name="chatBox" />
+                <ChatBox name="chatBox" handleChatOpen={handleChatOpen} />
 
                 {/*{messageReceived}*/}
 

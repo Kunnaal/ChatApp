@@ -4,6 +4,7 @@ import styles from '../Room.module.css';
 import {useEffect, useState} from "react";
 import { meet_code } from "../Room";
 import io from "socket.io-client";
+import CloseIcon from '@mui/icons-material/Close';
 
 const socket = io('/');
 
@@ -11,8 +12,20 @@ const ChatBox = (props) => {
 
     const [inputValue, setInputValue] = useState('');
     const [messageReceived, setMessageReceived] = useState([]);
+    const [selfUser, setSelfUser] = useState(null);
 
     useEffect(() => {
+        // Fetch the username of user who joined
+        const getData = async () => {
+            const response = await fetch(`/api/getUsername/${localStorage.getItem('token')}`);
+            const data = await response.json();
+            setSelfUser(data.username);
+        }
+        if (selfUser === null) {
+            setSelfUser('Anonymous');
+            getData().then();
+        }
+        // Make the user join the same room of socket, that the user is currently in
         socket.emit("join_room", meet_code);
         // socket.emit("send_message", { message: `Welcome to meet ${meet_code}`, meet_code });
     }, [])
@@ -24,7 +37,11 @@ const ChatBox = (props) => {
     useEffect(() => {
         socket.on("receive_message", (data) => {
             setMessageReceived((prev) => {
-                return [...prev, data.message]
+                return [...prev, {
+                    "username": data.username,
+                    "time": data.time,
+                    "message": data.message,
+                }]
             });
         });
     }, [socket]);
@@ -37,19 +54,28 @@ const ChatBox = (props) => {
         }
     }, [inputValue]);
 
-    const sendMessage = () => {
+    const sendMessage = (event) => {
+        event.preventDefault();
         if (inputValue !== '') {
-            socket.emit("send_message", { message: inputValue, meet_code });
+            const date = new Date();
+            const hoursAndMinutes = date.toLocaleTimeString('en-US', {hour: '2-digit',minute: '2-digit'});
+            socket.emit("send_message", { message: {
+                    "username": selfUser,
+                    "time": hoursAndMinutes,
+                    "message": inputValue,
+                }, meet_code });
         }
+        // Clearing the input field:
+        setInputValue('');
     }
 
-    const paraItems = messageReceived.map((message) =>
+    const paraItems = messageReceived.map((item) =>
         <div className={styles.chatMessage}>
             <div className={styles.messagePackage}>
-                <div className={styles.messageHeader}> &lt; senders name &gt; </div>
-                <div className={styles.messageTime}> &lt; message time &gt; </div>
+                <div className={styles.messageHeader}> { (item.username === selfUser) ? "You" : item.username } </div>
+                <div className={styles.messageTime}> {item.time} </div>
             </div>
-            <p>{message}</p>
+            <p>{item.message}</p>
         </div>
     );
 
@@ -59,12 +85,22 @@ const ChatBox = (props) => {
             className={styles.chatBox}
             name={props.name}
         >
-            <div className={styles.chatHeader}>In-call messages</div>
+            <div className={styles.chatHeaderGroup}>
+                <div className={styles.chatHeader}>In-call messages</div>
+                <CloseIcon onClick={props.handleChatOpen} ></CloseIcon>
+            </div>
             <div className={styles.chatMessages}>
                 {paraItems}
             </div>
             <div className={styles.inputGroup}>
-                <input className={styles.chatInput} name="inputMessage" value={inputValue} onChange={handleInputChange}/>
+                <form onSubmit={sendMessage} className={styles.inputForm}>
+                    <input
+                        className={styles.chatInput}
+                        name="inputMessage"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                    />
+                </form>
                 <SendIcon className={styles.chatInputSendIcon} name={"sendIcon"} onClick={sendMessage}/>
             </div>
         </Paper>
