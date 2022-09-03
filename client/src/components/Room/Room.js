@@ -8,6 +8,8 @@ import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import styles from './Room.module.css';
 import ChatBox from "./ChatBox/ChatBox";
+import VideoCall from "./VideoCall/VideoCall";
+import {Grid} from "@mui/material";
 
 let meet_code = '';
 
@@ -48,8 +50,15 @@ const Room = () => {
             <>
                 <MeetCard/>
 
-                {/*Chat box styling*/}
-                <ChatBox name="chatBox" handleChatOpen={handleChatOpen} />
+                <Grid container spacing={3}>
+                    <Grid item xs="auto">
+                        <VideoCall/>
+                    </Grid>
+                    <Grid item xs={12}>
+                        {/*Chat box styling*/}
+                        <ChatBox name="chatBox" handleChatOpen={handleChatOpen} />
+                    </Grid>
+                </Grid>
 
                 {/*{messageReceived}*/}
 

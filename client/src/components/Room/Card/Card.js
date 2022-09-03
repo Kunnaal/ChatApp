@@ -119,7 +119,7 @@ export default function MeetCard(){
                     </Typography>
                     <Typography gutterBottom style={{fontFamily:'Roboto Mono', fontSize:'22px'}}>
                         { DOMAIN }/{ code }
-                        <input style={{display:'none'}} className='MeetCode' name='MeetCode' value ={`${DOMAIN}/${code}`}/>
+                        <input style={{display:'none'}} className='MeetCode' name='MeetCode' value ={`${DOMAIN}/${code}`} readOnly={true} />
                     </Typography>
                 </DialogContent>
                 <DialogActions>
