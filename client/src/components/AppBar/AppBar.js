@@ -15,8 +15,9 @@ import { createTheme } from "@mui/material/styles";
 import SmartDisplayOutlinedIcon from '@mui/icons-material/SmartDisplayOutlined';
 import CssBaseline from '@mui/material/CssBaseline';
 import {Link, ThemeProvider} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import { UserContext } from "../App/App";
 
 const pages = ['Dashboard', 'About us'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
@@ -30,6 +31,8 @@ const darkTheme = createTheme({
 const ResponsiveAppBar = () => {
 
     const navigate = useNavigate();
+
+    let userData = useContext(UserContext);
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -53,13 +56,8 @@ const ResponsiveAppBar = () => {
     const [user_img_id, set_user_img_id] = useState('00');
 
     useEffect(() => {
-        const getData = async () => {
-            const response = await fetch(`/api/getDp/${localStorage.getItem('token')}`);
-            const data = await response.json();
-            set_user_img_id(data.user_image_id);
-        }
         if (user === null) {
-            getData().then();
+            set_user_img_id(userData.image_id);
             setUser(0);
         }
     }, [user, user_img_id]);

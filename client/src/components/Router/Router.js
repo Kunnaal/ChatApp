@@ -14,7 +14,8 @@ const RouterApp = () => {
                 {/*Keep at last cause this is the work case to encounter*/}
                 <Route path={'/:code'} element={<Room/>} />
             </Routes>
-        </Router>);
+        </Router>
+    );
 }
 
 export default RouterApp;

@@ -1,11 +1,15 @@
 import Hero from '../Hero/Hero';
-import { useEffect } from "react";
+import {useContext, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import ResponsiveAppBar from '../AppBar/AppBar';
+import { UserContext } from "../App/App";
 
 const Home = () => {
 
     const navigate = useNavigate();
+
+    let userData = useContext(UserContext);
+    console.log(userData);
 
     useEffect(() => {
         const token = localStorage.token;

@@ -1,29 +1,30 @@
 import Paper from '@mui/material/Paper';
 import SendIcon from '@mui/icons-material/Send';
 import styles from '../Room.module.css';
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import { meet_code } from "../Room";
 import io from "socket.io-client";
 import CloseIcon from '@mui/icons-material/Close';
+import { UserContext } from "../../App/App";
 
 const socket = io('/');
 
 const ChatBox = (props) => {
+
+    let userData = useContext(UserContext);
 
     const [inputValue, setInputValue] = useState('');
     const [messageReceived, setMessageReceived] = useState([]);
     const [selfUser, setSelfUser] = useState(null);
 
     useEffect(() => {
-        // Fetch the username of user who joined
-        const getData = async () => {
-            const response = await fetch(`/api/getUsername/${localStorage.getItem('token')}`);
-            const data = await response.json();
-            setSelfUser(data.username);
-        }
         if (selfUser === null) {
             setSelfUser('Anonymous');
-            getData().then();
+            try {
+                setSelfUser(userData.username);
+            } catch {
+                console.log("User not logged in!");
+            }
         }
         // Make the user join the same room of socket, that the user is currently in
         socket.emit("join_room", meet_code);
